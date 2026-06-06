@@ -27,8 +27,8 @@ function prompt_command() {
     fi
 
     PS1+="${yellow?}$(ruby_version_prompt) "
-    PS1+="${purple?}\u@\h "
-    PS1+="${reset_color?}in "
+    PS1+="${purple?}\u@\h"
+    PS1+="${reset_color?}:"
     PS1+="${green?}\w\n"
     PS1+="${bold_cyan?}$(scm_prompt_char_info) "
     PS1+="${green?}→${reset_color?} "
