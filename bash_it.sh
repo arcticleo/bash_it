@@ -3,6 +3,13 @@
 # shellcheck disable=SC2034
 #
 # Initialize Bash It
+
+# Skip in non-interactive shells (Hermes terminal snapshot, cron, etc.)
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
 BASH_IT_LOG_PREFIX="core: main: "
 : "${BASH_IT:=${BASH_SOURCE%/*}}"
 : "${BASH_IT_CUSTOM:=${BASH_IT}/custom}"
