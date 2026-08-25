@@ -20,19 +20,20 @@ RBENV_THEME_PROMPT_PREFIX="|"
 
 function prompt_command() {
     local time_part="$(date +%T)"
-    local week_part="w$((10#$(date +%V)))"
-    # Compact date like "aug15": lowercased month abbreviation, day without
+    # Compact date like "AUG15": uppercased month abbreviation, day without
     # leading zero (10# arithmetic since BSD date has no %-d).
-    local date_part="$(date +%b | tr '[:upper:]' '[:lower:]')$((10#$(date +%d)))"
+    local month_part="$(date +%b | tr '[:lower:]' '[:upper:]')"
+    local day_part="$((10#$(date +%d)))"
+    local week_part="$((10#$(date +%V)))"
 
-    # Same cyan scheme as jelly's progress output: muted regular cyan for the
-    # date, bold bright cyan for the time.
-    # 0; clears any prior attributes (the time's bold would otherwise bleed
-    # into the week number — SGR 36 alone only changes the color).
+    # Same cyan scheme as jelly's progress output: bold bright cyan for the
+    # time and the numbers, muted regular cyan for the letter parts.
+    # 0; clears any prior attributes (bold would otherwise bleed into the
+    # muted parts — SGR 36 alone only changes the color).
     local muted_cyan='\[\e[0;36m\]'
     local bold_bright_cyan='\[\e[1;96m\]'
 
-    PS1="\n${bold_bright_cyan}${time_part} ${muted_cyan}${week_part} ${date_part}${reset_color?} "
+    PS1="\n${bold_bright_cyan}${time_part} ${muted_cyan}${month_part}${bold_bright_cyan}${day_part} ${muted_cyan}W${bold_bright_cyan}${week_part}${reset_color?} "
 
     PS1+="${yellow?}$(ruby_version_prompt) "
     PS1+="${purple?}\u@\h"
